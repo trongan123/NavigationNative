@@ -12,6 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.navigationnative.presentation.ui.MainScreen
+import com.example.navigationnative.presentation.ui.navigation.screenone.ScreenOne
 import com.example.navigationnative.presentation.ui.view.ToolBarView
 import com.example.navigationnative.utils.NavigationUtils
 
@@ -21,6 +25,7 @@ object ScreenThree {
 
     @Composable
     fun Screen(title: String) {
+        var number = NavigationUtils.getSavedStateHandle()?.get<Int>("number")
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
@@ -40,8 +45,14 @@ object ScreenThree {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
+                    number = number?.plus(1)
+                    Text(
+                        modifier = Modifier.padding(bottom = 10.dp),
+                        fontSize = 18.sp,
+                        text = number.toString()
+                    )
                     Button(onClick = {
-
+                        NavigationUtils.navigate(ScreenOne.ROUTE, ScreenTwo.ROUTE, true)
                     }) {
                         Text("Present", color = Color.White)
                     }
@@ -51,7 +62,7 @@ object ScreenThree {
                         Text("Push", color = Color.White)
                     }
                     Button(onClick = {
-                        NavigationUtils.popBackStack()
+                        NavigationUtils.popBackMain()
                     }) {
                         Text("Back", color = Color.White)
                     }

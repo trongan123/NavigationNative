@@ -1,30 +1,31 @@
-package com.example.navigationnative.presentation.ui.navigation
+package com.example.navigationnative.presentation.ui.bottomnavigate
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.example.navigationnative.presentation.ui.view.ToolBarView
-import com.example.navigationnative.utils.NavigationUtils
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
-object ScreenOne {
+object SearchScreen {
 
-    const val ROUTE = "ScreenOne"
-
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun Screen(title: String) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                ToolBarView(title)
+                TopAppBar(
+                    title = { Text(title) }
+                )
             }
         ) { innerPadding ->
             Row(
@@ -40,28 +41,15 @@ object ScreenOne {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Button(onClick = {
 
-                    }) {
-                        Text("Present", color = Color.White)
-                    }
-                    Button(onClick = {
-                        NavigationUtils.navigate(ScreenTwo.ROUTE)
-                    }) {
-                        Text("Push", color = Color.White)
-                    }
-                    Button(onClick = {
-                        NavigationUtils.popBackStack()
-                    }) {
-                        Text("Back", color = Color.White)
-                    }
-                    Button(onClick = {
-
-                    }) {
-                        Text("Clear Stack", color = Color.White)
-                    }
+                    Text(
+                        modifier = Modifier.padding(bottom = 10.dp),
+                        fontSize = 18.sp,
+                        text = "Search Screen"
+                    )
                 }
             }
         }
     }
+
 }

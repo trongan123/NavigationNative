@@ -1,7 +1,6 @@
 package com.example.navigationnative.presentation.navigation
 
 import androidx.compose.animation.AnimatedContentScope
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -14,11 +13,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.navigationnative.presentation.ui.MainScreen
-import com.example.navigationnative.presentation.ui.navigation.ScreenOne
+import com.example.navigationnative.presentation.ui.navigation.screenone.ScreenOne
 import com.example.navigationnative.presentation.ui.navigation.ScreenThree
 import com.example.navigationnative.presentation.ui.navigation.ScreenTwo
 import com.example.navigationnative.utils.NavigationUtils
-import com.google.accompanist.navigation.animation.AnimatedNavHost
 
 @Composable
 fun AppNavigation() {

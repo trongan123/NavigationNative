@@ -1,21 +1,23 @@
 package com.example.navigationnative.presentation.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerScope
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.example.navigationnative.presentation.ui.navigation.ScreenOne
+import com.example.navigationnative.presentation.ui.bottomnavigate.CallScreen
+import com.example.navigationnative.presentation.ui.bottomnavigate.FriendScreen
+import com.example.navigationnative.presentation.ui.bottomnavigate.HomeScreen
+import com.example.navigationnative.presentation.ui.bottomnavigate.ProfileScreen
+import com.example.navigationnative.presentation.ui.bottomnavigate.SearchScreen
 import com.example.navigationnative.presentation.ui.view.BackExit
-import com.example.navigationnative.utils.NavigationUtils
+import com.example.navigationnative.presentation.ui.view.BottomNavigationBar
+import com.example.navigationnative.utils.BottomNavigationUtils
 
 object MainScreen {
     const val ROUTE = "mainScreen"
@@ -23,48 +25,30 @@ object MainScreen {
     @Composable
     fun Screen() {
         BackExit()
+        val pagerState = rememberPagerState(initialPage = 2, pageCount = { 5 })
+        BottomNavigationUtils.setPagerState(pagerState)
+
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .systemBarsPadding()
-        )
-        { innerPadding ->
-            Row(
+                .systemBarsPadding(),
+            bottomBar = { BottomNavigationBar(pagerState) }) { innerPadding ->
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
             ) {
-
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Button(onClick = {
-                       NavigationUtils.navigate(ScreenOne.ROUTE)
-                    }) {
-                        Text("Present", color = Color.White)
-                    }
-                    Button(onClick = {
-
-                    }) {
-                        Text("Push", color = Color.White)
-                    }
-                    Button(onClick = {
-                        NavigationUtils.popBackStack()
-                    }) {
-                        Text("Back", color = Color.White)
-                    }
-                    Button(onClick = {
-
-                    }) {
-                        Text("Clear Stack", color = Color.White)
+                HorizontalPager(state = pagerState) { page ->
+                    BottomNavigationUtils.handleSelectedNavigation(pagerState.currentPage)
+                    when (page) {
+                        0 -> SearchScreen.Screen("Search Screen")
+                        1 -> CallScreen.Screen("Call Screen")
+                        2 -> HomeScreen.Screen("Home Screen")
+                        3 -> FriendScreen.Screen("Friend Screen")
+                        4 -> ProfileScreen.Screen("Profile Screen")
                     }
                 }
             }
         }
-
     }
 }
