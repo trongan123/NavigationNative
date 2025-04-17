@@ -30,7 +30,6 @@ object ScreenOne {
         title: String,
         viewModel: NavigationViewModel = hiltViewModel(),
     ) {
-        val text = viewModel.getText().collectAsState()
         var number = NavigationUtils.getSavedStateHandle()?.get<Int>("number")
 
         viewModel.setText()
@@ -57,7 +56,7 @@ object ScreenOne {
                     Text(
                         modifier = Modifier.Companion.padding(bottom = 10.dp),
                         fontSize = 18.sp,
-                        text = text.value
+                        text = number.toString()
                     )
 
                     Button(onClick = {

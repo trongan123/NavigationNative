@@ -1,5 +1,6 @@
 package com.example.navigationnative.utils
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import com.example.navigationnative.presentation.ui.MainScreen
@@ -31,7 +32,9 @@ object NavigationUtils {
 
     fun navigate(route: String, routeRemove: String, inclusive: Boolean) {
         navControllerRef?.get()?.navigate(route) {
-            popUpTo(routeRemove) { inclusive }
+            popUpTo(routeRemove) {
+                this.inclusive = inclusive
+            }
         }
     }
 
@@ -43,7 +46,4 @@ object NavigationUtils {
         return navControllerRef?.get()?.previousBackStackEntry?.savedStateHandle
     }
 
-    fun clearNavController() {
-        navControllerRef = null
-    }
 }

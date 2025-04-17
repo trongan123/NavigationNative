@@ -1,4 +1,4 @@
-package com.example.navigationnative.utils
+package com.example.navigationnative.presentation.ui.view.pagernavigation
 
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.MutableIntState
@@ -10,10 +10,6 @@ object BottomNavigationUtils {
 
     fun setPagerState(pagerState: PagerState?) {
         this.pagerState = pagerState
-    }
-
-    fun getPagerState(): PagerState? {
-        return pagerState
     }
 
     fun setSelectedNavigationIndex(selectedNavigationIndex: MutableIntState?) {
