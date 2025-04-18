@@ -29,7 +29,7 @@ class NotificationUseCase @Inject constructor() {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_home_selected) // dùng icon trong drawable
             .setContentTitle("Navigation DEMO")
-            .setContentText("Navigation to Screen")
+            .setContentText("Navigation to Screen Three")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)

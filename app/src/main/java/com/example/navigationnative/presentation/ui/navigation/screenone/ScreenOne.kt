@@ -9,16 +9,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.navigationnative.presentation.ui.navigation.ScreenTwo
+import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.ToolBarView
-import com.example.navigationnative.presentation.viewmodel.NavigationViewModel
 import com.example.navigationnative.utils.NavigationUtils
 
 object ScreenOne {
@@ -28,11 +26,10 @@ object ScreenOne {
     @Composable
     fun Screen(
         title: String,
-        viewModel: NavigationViewModel = hiltViewModel(),
     ) {
         var number = NavigationUtils.getSavedStateHandle()?.get<Int>("number")
+        val presentOne = PresentOne()
 
-        viewModel.setText()
         Scaffold(
             modifier = Modifier.Companion.fillMaxSize(),
             topBar = {
@@ -60,7 +57,8 @@ object ScreenOne {
                     )
 
                     Button(onClick = {
-                        NavigationUtils.popBackMain()
+                        presentOne.onOpen()
+
                     }) {
                         Text("Present", color = Color.Companion.White)
                     }
@@ -83,5 +81,7 @@ object ScreenOne {
                 }
             }
         }
+
+        presentOne.Show()
     }
 }

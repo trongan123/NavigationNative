@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
         val route = intent.getStringExtra("ROUTE")
 
         if (route?.isEmpty() != false) return
-
+        NavigationUtils.savedStateHandle("number", 2)
         NavigationUtils.navigate(route)
     }
 

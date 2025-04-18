@@ -1,8 +1,6 @@
 package com.example.navigationnative.presentation.ui.bottomnavigate
 
 import android.content.Context
-import android.content.ContextWrapper
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,18 +13,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.navigationnative.MainActivity
 import com.example.navigationnative.presentation.ui.navigation.screenone.ScreenOne
-import com.example.navigationnative.presentation.ui.present.PresentOneFragment
+import com.example.navigationnative.presentation.ui.present.FullScreen
+import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.BackExit
 import com.example.navigationnative.presentation.viewmodel.NavigationViewModel
 import com.example.navigationnative.utils.NavigationUtils
@@ -40,6 +38,7 @@ object HomeScreen {
         viewModel: NavigationViewModel = hiltViewModel(),
         context: Context = LocalView.current.context
     ) {
+        val presentOne = PresentOne()
         BackExit()
         Scaffold(
             modifier = Modifier
@@ -71,7 +70,7 @@ object HomeScreen {
                         text = "Jetpack Compose Navigation"
                     )
                     Button(onClick = {
-
+                        presentOne.onOpen()
                     }) {
                         Text("Present", color = Color.White)
                     }
@@ -94,5 +93,8 @@ object HomeScreen {
                 }
             }
         }
+
+        presentOne.Show()
+
     }
 }

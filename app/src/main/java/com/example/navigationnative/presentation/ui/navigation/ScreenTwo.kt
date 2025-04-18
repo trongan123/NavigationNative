@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.ToolBarView
 import com.example.navigationnative.presentation.viewmodel.NavigationViewModel
 import com.example.navigationnative.utils.NavigationUtils
@@ -37,6 +38,7 @@ object ScreenTwo {
                 ToolBarView(title)
             }
         ) { innerPadding ->
+            val presentOne = PresentOne()
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -57,7 +59,7 @@ object ScreenTwo {
                         text = number.toString()
                     )
                     Button(onClick = {
-                        NavigationUtils.popBackMain()
+                        presentOne.onOpen()
                     }) {
                         Text("Present", color = Color.White)
                     }
@@ -80,6 +82,8 @@ object ScreenTwo {
 
                 }
             }
+
+            presentOne.Show()
         }
     }
 }
