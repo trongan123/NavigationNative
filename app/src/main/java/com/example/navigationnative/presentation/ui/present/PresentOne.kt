@@ -16,29 +16,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.navigationnative.utils.NavigationUtils
 
-class PresentOne {
-
-    val fullScreen = FullScreen()
+object PresentOne {
+    const val ROUTE = "PresentOne"
 
     @Composable
     fun Show() {
-        fullScreen.FullScreenDialog(
+        FullScreenDialog(
             onDismissRequest = {
-                fullScreen.onDismiss()
+                NavigationUtils.popBackStack()
             },
         ) {
-            Screen("Present One", onBackPressed = { fullScreen.onDismiss() })
+            Screen("Present One", onBackPressed = { NavigationUtils.popBackStack() })
         }
-    }
-
-
-    fun onDismiss() {
-        fullScreen.onDismiss()
-    }
-
-    fun onOpen() {
-        fullScreen.onOpen()
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -52,8 +43,6 @@ class PresentOne {
                 )
             }
         ) { innerPadding ->
-            val presentTwo = PresentTwo()
-
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -75,7 +64,7 @@ class PresentOne {
                     )
 
                     Button(onClick = {
-                        presentTwo.onOpen()
+                      NavigationUtils.navigate(PresentTwo.ROUTE)
                     }) {
                         Text("Present", color = Color.White)
                     }
@@ -87,7 +76,6 @@ class PresentOne {
 
                 }
             }
-            presentTwo.Show()
         }
     }
 }

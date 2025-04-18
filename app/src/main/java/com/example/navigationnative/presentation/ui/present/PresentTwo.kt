@@ -16,29 +16,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.navigationnative.utils.NavigationUtils
 
-class PresentTwo {
-
-    val fullScreen = FullScreen()
+object PresentTwo {
+    const val ROUTE = "PresentTwo"
 
     @Composable
     fun Show() {
-        fullScreen.FullScreenDialog(
+        FullScreenDialog(
             onDismissRequest = {
-                fullScreen.onDismiss()
+                NavigationUtils.popBackStack()
             },
         ) {
-            Screen("Present Two", onBackPressed = { fullScreen.onDismiss() })
+            Screen("Present Two", onBackPressed = { NavigationUtils.popBackStack() })
         }
-    }
-
-
-    fun onDismiss() {
-        fullScreen.onDismiss()
-    }
-
-    fun onOpen() {
-        fullScreen.onOpen()
     }
 
     @OptIn(ExperimentalMaterial3Api::class)

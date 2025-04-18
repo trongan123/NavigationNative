@@ -13,8 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.navigationnative.presentation.ui.navigation.screenone.ScreenOne
-import com.example.navigationnative.presentation.ui.present.FullScreen
+import com.example.navigationnative.presentation.ui.present.BottomSheetScreen
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.BackExit
 import com.example.navigationnative.presentation.viewmodel.NavigationViewModel
@@ -38,7 +36,6 @@ object HomeScreen {
         viewModel: NavigationViewModel = hiltViewModel(),
         context: Context = LocalView.current.context
     ) {
-        val presentOne = PresentOne()
         BackExit()
         Scaffold(
             modifier = Modifier
@@ -70,7 +67,7 @@ object HomeScreen {
                         text = "Jetpack Compose Navigation"
                     )
                     Button(onClick = {
-                        presentOne.onOpen()
+                        NavigationUtils.navigate(PresentOne.ROUTE)
                     }) {
                         Text("Present", color = Color.White)
                     }
@@ -81,9 +78,9 @@ object HomeScreen {
                         Text("Push", color = Color.White)
                     }
                     Button(onClick = {
-
+                        NavigationUtils.navigate(BottomSheetScreen.ROUTE)
                     }) {
-                        Text("Clear Stack", color = Color.White)
+                        Text("Bottom Sheet", color = Color.White)
                     }
                     Button(onClick = {
                         viewModel.showSimpleNotification(context)
@@ -93,8 +90,5 @@ object HomeScreen {
                 }
             }
         }
-
-        presentOne.Show()
-
     }
 }

@@ -14,25 +14,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavBackStackEntry
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.ToolBarView
 import com.example.navigationnative.utils.NavigationUtils
 
 object ScreenThree {
 
-    const val ROUTE = "ScreenThree"
+    const val ROUTE = "ScreenThree/"
 
     @Composable
-    fun Screen(title: String) {
-        var number = NavigationUtils.getSavedStateHandle()?.get<Int>("number")
+    fun Screen(title: String, backStackEntry: NavBackStackEntry) {
+        var number: Int? = 0
+
+        number = NavigationUtils.getSavedStateHandle()?.get<Int>("number")
+        if (number == 0) {
+            var result: String? = backStackEntry.arguments?.getString("number") ?: "0"
+            number = result?.toInt()
+        }
+
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 ToolBarView(title)
             }
         ) { innerPadding ->
-
-            val presentOne = PresentOne()
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -53,29 +59,23 @@ object ScreenThree {
                         text = number.toString()
                     )
                     Button(onClick = {
-                        presentOne.onOpen()
+                        NavigationUtils.navigate(PresentOne.ROUTE)
                     }) {
                         Text("Present", color = Color.White)
                     }
                     Button(onClick = {
-                        NavigationUtils.popBackMain()
-                    }) {
-                        Text("Push", color = Color.White)
-                    }
-                    Button(onClick = {
-                        NavigationUtils.popBackMain()
+                        NavigationUtils.popBackStack()
                     }) {
                         Text("Back", color = Color.White)
                     }
                     Button(onClick = {
-
+                        NavigationUtils.popBackMain()
                     }) {
-                        Text("Clear Stack", color = Color.White)
+                        Text("Back and Clear All Stack", color = Color.White)
                     }
                 }
             }
 
-            presentOne.Show()
         }
     }
 }

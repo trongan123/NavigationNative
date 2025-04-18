@@ -23,8 +23,8 @@ data class NavigationItem(
                     SearchScreen.Screen("Search Screen")
                 },
                 NavigationItem(
-                    R.drawable.ic_home,
-                    R.drawable.ic_home_selected
+                    R.drawable.ic_call,
+                    R.drawable.ic_call_selected
                 ) {
                     CallScreen.Screen("Call Screen")
                 },
@@ -35,14 +35,14 @@ data class NavigationItem(
                     HomeScreen.Screen("Home Screen")
                 },
                 NavigationItem(
-                    R.drawable.ic_home,
-                    R.drawable.ic_home_selected
+                    R.drawable.ic_friend,
+                    R.drawable.ic_friend_selected
                 ) {
                     FriendScreen.Screen("Friend Screen")
                 },
                 NavigationItem(
-                    R.drawable.ic_home,
-                    R.drawable.ic_home_selected
+                    R.drawable.ic_profile,
+                    R.drawable.ic_profile_selected
                 ) {
                     ProfileScreen.Screen("Profile Screen")
                 }

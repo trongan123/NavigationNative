@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,7 +18,9 @@ import androidx.compose.ui.unit.sp
 import com.example.navigationnative.presentation.ui.navigation.ScreenTwo
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.ToolBarView
+import com.example.navigationnative.utils.CoroutineUtils
 import com.example.navigationnative.utils.NavigationUtils
+import kotlinx.coroutines.delay
 
 object ScreenOne {
 
@@ -28,7 +31,6 @@ object ScreenOne {
         title: String,
     ) {
         var number = NavigationUtils.getSavedStateHandle()?.get<Int>("number")
-        val presentOne = PresentOne()
 
         Scaffold(
             modifier = Modifier.Companion.fillMaxSize(),
@@ -57,8 +59,7 @@ object ScreenOne {
                     )
 
                     Button(onClick = {
-                        presentOne.onOpen()
-
+                        NavigationUtils.navigate(PresentOne.ROUTE)
                     }) {
                         Text("Present", color = Color.Companion.White)
                     }
@@ -74,14 +75,12 @@ object ScreenOne {
                         Text("Back", color = Color.Companion.White)
                     }
                     Button(onClick = {
-
+                        NavigationUtils.navigate(ScreenTwo.ROUTE + number, ScreenOne.ROUTE, true)
                     }) {
-                        Text("Clear Stack", color = Color.Companion.White)
+                        Text("Push and Clear Stack", color = Color.Companion.White)
                     }
                 }
             }
         }
-
-        presentOne.Show()
     }
 }

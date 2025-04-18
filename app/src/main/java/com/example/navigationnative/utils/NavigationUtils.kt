@@ -1,6 +1,5 @@
 package com.example.navigationnative.utils
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import com.example.navigationnative.presentation.ui.MainScreen
@@ -42,8 +41,16 @@ object NavigationUtils {
         navControllerRef?.get()?.currentBackStackEntry?.savedStateHandle?.set(id, data)
     }
 
+    fun savedStateHandle(route: String, id: String, data: Any?) {
+        navControllerRef?.get()?.getBackStackEntry(route)?.savedStateHandle?.set(id, data)
+    }
+
     fun getSavedStateHandle(): SavedStateHandle? {
         return navControllerRef?.get()?.previousBackStackEntry?.savedStateHandle
+    }
+
+    fun getSavedStateHandle(route: String): SavedStateHandle? {
+        return navControllerRef?.get()?.getBackStackEntry(route)?.savedStateHandle
     }
 
 }

@@ -1,5 +1,5 @@
 [versions]
-accompanistNavigationAnimation = "0.34.0"
+accompanistNavigationAnimation = "1.7.8"
 agp = "8.9.1"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
@@ -15,7 +15,7 @@ hiltNavigationCompose = "1.2.0"
 hilt = "2.52"
 
 [libraries]
-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
+accompanist-navigation-material = { module = "androidx.compose.material:material-navigation", version.ref = "accompanistNavigationAnimation" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

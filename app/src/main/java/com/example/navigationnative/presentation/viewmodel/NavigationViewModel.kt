@@ -13,10 +13,6 @@ class NavigationViewModel @Inject constructor(
     private val navigationStore: NavigationStore
 ) : ViewModel() {
 
-    init {
-        Log.e("TAG", "NavigationViewModel init")
-    }
-
     fun getText(): StateFlow<String> = navigationStore.text
 
     fun showSimpleNotification(context: Context){
@@ -24,7 +20,7 @@ class NavigationViewModel @Inject constructor(
     }
 
     fun setText() {
-        navigationStore.setText("Zxczxcxzcxzczxczxc")
+        navigationStore.setText("")
     }
 
 }
