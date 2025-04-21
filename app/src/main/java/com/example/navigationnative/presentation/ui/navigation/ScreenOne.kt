@@ -1,4 +1,4 @@
-package com.example.navigationnative.presentation.ui.navigation.screenone
+package com.example.navigationnative.presentation.ui.navigation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,18 +9,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.navigationnative.presentation.ui.navigation.ScreenTwo
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.ToolBarView
-import com.example.navigationnative.utils.CoroutineUtils
 import com.example.navigationnative.utils.NavigationUtils
-import kotlinx.coroutines.delay
 
 object ScreenOne {
 
@@ -75,7 +71,7 @@ object ScreenOne {
                         Text("Back", color = Color.Companion.White)
                     }
                     Button(onClick = {
-                        NavigationUtils.navigate(ScreenTwo.ROUTE + number, ScreenOne.ROUTE, true)
+                        NavigationUtils.navigate(ScreenTwo.ROUTE + number, ROUTE, true)
                     }) {
                         Text("Push and Clear Stack", color = Color.Companion.White)
                     }

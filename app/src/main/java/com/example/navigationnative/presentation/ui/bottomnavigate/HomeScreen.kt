@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.navigationnative.presentation.ui.navigation.screenone.ScreenOne
+import com.example.navigationnative.presentation.ui.navigation.ScreenOne
 import com.example.navigationnative.presentation.ui.present.BottomSheetScreen
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.BackExit
