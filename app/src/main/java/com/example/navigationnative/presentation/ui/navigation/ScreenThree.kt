@@ -21,16 +21,21 @@ import com.example.navigationnative.utils.NavigationUtils
 
 object ScreenThree {
 
-    const val ROUTE = "ScreenThree/"
+    const val ROUTE = "ScreenThree"
+    const val ROUTE_WITH_PARAMS = "$ROUTE?name={name}&number={number}"
+
+    fun getRouteWithParam(number: Int?): String {
+        return "${ROUTE}?number=$number"
+    }
 
     @Composable
     fun Screen(title: String, backStackEntry: NavBackStackEntry) {
         var number: Int? = 0
 
         number = NavigationUtils.getSavedStateHandle()?.get<Int>("number")
+
         if (number == 0) {
-            var result: String? = backStackEntry.arguments?.getString("number") ?: "0"
-            number = result?.toInt()
+            number = backStackEntry.arguments?.getInt("number")
         }
 
         Scaffold(

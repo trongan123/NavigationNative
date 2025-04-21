@@ -48,14 +48,28 @@ fun AppNavigation() {
                 ScreenOne.Screen("ScreenOne")
             }
             addAnimatedComposable(
-                ScreenTwo.ROUTE + "{number}",
-                arguments = listOf(navArgument("number") { type = NavType.IntType })
+                ScreenTwo.ROUTE_WITH_PARAMS,
+                arguments = listOf(navArgument("number") {
+                    type = NavType.IntType
+                    defaultValue = 0
+                    nullable = false
+                })
             ) { backStackEntry ->
                 ScreenTwo.Screen("ScreenTwo", backStackEntry = backStackEntry)
             }
             addAnimatedComposable(
-                ScreenThree.ROUTE + "{number}",
-                arguments = listOf(navArgument("number") { type = NavType.IntType })
+                ScreenThree.ROUTE_WITH_PARAMS,
+                arguments = listOf(
+                    navArgument("number") {
+                        type = NavType.IntType
+                        defaultValue = 0
+                        nullable = false
+                    },
+                    navArgument("name") {
+                        type = NavType.StringType
+                        defaultValue = ""
+                        nullable = false
+                    })
             ) { backStackEntry ->
                 ScreenThree.Screen("ScreenThree", backStackEntry = backStackEntry)
             }
@@ -85,6 +99,7 @@ fun NavGraphBuilder.addAnimatedComposable(
         exitTransition = { slideOutHorizontally { -it } + fadeOut() },
         popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) + fadeIn() },
         popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) + fadeOut() },
-        content = content
+        content = content,
+        arguments = arguments
     )
 }

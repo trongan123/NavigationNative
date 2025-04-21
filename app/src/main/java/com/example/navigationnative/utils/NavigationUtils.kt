@@ -41,10 +41,6 @@ object NavigationUtils {
         navControllerRef?.get()?.currentBackStackEntry?.savedStateHandle?.set(id, data)
     }
 
-    fun savedStateHandle(route: String, id: String, data: Any?) {
-        navControllerRef?.get()?.getBackStackEntry(route)?.savedStateHandle?.set(id, data)
-    }
-
     fun getSavedStateHandle(): SavedStateHandle? {
         return navControllerRef?.get()?.previousBackStackEntry?.savedStateHandle
     }

@@ -71,7 +71,7 @@ object ScreenOne {
                         Text("Back", color = Color.Companion.White)
                     }
                     Button(onClick = {
-                        NavigationUtils.navigate(ScreenTwo.ROUTE + number, ROUTE, true)
+                        NavigationUtils.navigate(ScreenTwo.getRouteWithParam(number), ROUTE, true)
                     }) {
                         Text("Push and Clear Stack", color = Color.Companion.White)
                     }

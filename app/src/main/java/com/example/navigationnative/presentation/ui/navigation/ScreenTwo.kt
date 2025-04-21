@@ -22,7 +22,12 @@ import com.example.navigationnative.utils.NavigationUtils
 
 object ScreenTwo {
 
-    const val ROUTE = "ScreenTwo/"
+    const val ROUTE = "ScreenTwo"
+    const val ROUTE_WITH_PARAMS = "$ROUTE?number={number}"
+
+    fun getRouteWithParam(number: Int?): String {
+        return "${ROUTE}?number=$number"
+    }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -33,9 +38,9 @@ object ScreenTwo {
         var number: Int? = 0
 
         number = NavigationUtils.getSavedStateHandle()?.get<Int>("number")
+
         if (number == 0) {
-            var result: String? = backStackEntry.arguments?.getString("number") ?: "0"
-            number = result?.toInt()
+            number = backStackEntry.arguments?.getInt("number")
         }
 
         Scaffold(
@@ -80,9 +85,9 @@ object ScreenTwo {
                         Text("Back", color = Color.White)
                     }
                     Button(onClick = {
-                        NavigationUtils.navigate(ScreenThree.ROUTE + number, ROUTE, true)
+                        NavigationUtils.navigate(ScreenThree.getRouteWithParam(number), ROUTE, true)
                     }) {
-                        Text("Clear Stack", color = Color.White)
+                        Text("Push and Clear Stack", color = Color.White)
                     }
 
                 }
