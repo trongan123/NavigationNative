@@ -20,9 +20,9 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.navigationnative.presentation.ui.MainScreen
+import com.example.navigationnative.presentation.ui.navigation.ScreenOne
 import com.example.navigationnative.presentation.ui.navigation.ScreenThree
 import com.example.navigationnative.presentation.ui.navigation.ScreenTwo
-import com.example.navigationnative.presentation.ui.navigation.ScreenOne
 import com.example.navigationnative.presentation.ui.present.BottomSheetScreen
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.present.PresentTwo
@@ -85,7 +85,6 @@ fun NavGraphBuilder.addAnimatedComposable(
         exitTransition = { slideOutHorizontally { -it } + fadeOut() },
         popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) + fadeIn() },
         popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) + fadeOut() },
-        content = content,
-        arguments = arguments
+        content = content
     )
 }

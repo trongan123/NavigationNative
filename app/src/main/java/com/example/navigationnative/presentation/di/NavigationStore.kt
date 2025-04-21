@@ -16,8 +16,5 @@ class NavigationStore @Inject constructor(
     private var _text = MutableStateFlow<String>("")
     var text: StateFlow<String> = _text
 
-    fun setText(text: String) {
-        _text.value = text
-    }
 
 }

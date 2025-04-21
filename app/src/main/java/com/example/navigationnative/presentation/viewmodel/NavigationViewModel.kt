@@ -12,15 +12,7 @@ import javax.inject.Inject
 class NavigationViewModel @Inject constructor(
     private val navigationStore: NavigationStore
 ) : ViewModel() {
-
-    fun getText(): StateFlow<String> = navigationStore.text
-
     fun showSimpleNotification(context: Context){
         navigationStore.getNavigationUseCase().showSimpleNotification(context)
     }
-
-    fun setText() {
-        navigationStore.setText("")
-    }
-
 }
