@@ -1,23 +1,17 @@
 package com.example.navigationnative.presentation.navigation
 
 import android.content.Context
-import android.view.View
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.navigation.ModalBottomSheetLayout
 import androidx.compose.material.navigation.bottomSheet
 import androidx.compose.material.navigation.rememberBottomSheetNavigator
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -28,6 +22,7 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.navigationnative.presentation.ui.MainScreen
+import com.example.navigationnative.presentation.ui.bottomnavigate.ProfileScreen
 import com.example.navigationnative.presentation.ui.navigation.ScreenOne
 import com.example.navigationnative.presentation.ui.navigation.ScreenThree
 import com.example.navigationnative.presentation.ui.navigation.ScreenTwo
@@ -35,8 +30,6 @@ import com.example.navigationnative.presentation.ui.present.BottomSheetScreen
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.present.PresentTwo
 import com.example.navigationnative.utils.NavigationUtils
-import io.flutter.embedding.android.FlutterFragment
-import io.flutter.embedding.android.FlutterView
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.FlutterEngineCache
 import io.flutter.embedding.engine.dart.DartExecutor
@@ -46,6 +39,7 @@ import io.flutter.embedding.engine.dart.DartExecutor
 fun AppNavigation() {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     val navController = rememberNavController(bottomSheetNavigator)
+    val context: Context = LocalView.current.context
     NavigationUtils.setNavController(navController)
     ModalBottomSheetLayout(
         bottomSheetNavigator = bottomSheetNavigator
@@ -98,28 +92,28 @@ fun AppNavigation() {
         }
     }
 
+    registerProvideFlutterEngine(context, ScreenOne.ENGINE_ID)
+    registerProvideFlutterEngine(context, ScreenTwo.ENGINE_ID)
+    registerProvideFlutterEngine(context, ScreenThree.ENGINE_ID)
+    registerProvideFlutterEngine(context, PresentOne.ENGINE_ID)
+    registerProvideFlutterEngine(context, PresentTwo.ENGINE_ID)
+    registerProvideFlutterEngine(context, ProfileScreen.ENGINE_ID)
 }
 
-@Composable
-fun FlutterRouteScreen(route: String) {
-    val context = LocalContext.current
-    AndroidView(factory = {
-        val engine = provideFlutterEngine(it, route)
-        FlutterEngineCache.getInstance().put(route, engine)
-
-        FlutterView(it).apply {
-            attachToFlutterEngine(engine)
-        }
-    }, modifier = Modifier.fillMaxSize())
-}
-
-fun provideFlutterEngine(context: Context, route: String): FlutterEngine {
-    return FlutterEngine(context).apply {
-        navigationChannel.setInitialRoute(route)
+fun registerProvideFlutterEngine(context: Context, engineId: String) {
+    var flutterEngine = FlutterEngine(context).apply {
+        navigationChannel.setInitialRoute("/${engineId}")
         dartExecutor.executeDartEntrypoint(
             DartExecutor.DartEntrypoint.createDefault()
         )
     }
+
+    flutterEngine.dartExecutor.executeDartEntrypoint(
+        DartExecutor.DartEntrypoint.createDefault()
+    )
+    FlutterEngineCache
+        .getInstance()
+        .put(engineId, flutterEngine)
 }
 
 @OptIn(ExperimentalAnimationApi::class)

@@ -1,25 +1,27 @@
 package com.example.navigationnative.presentation.ui.present
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.example.navigationnative.utils.NavigationUtils
+import io.flutter.embedding.android.FlutterSurfaceView
+import io.flutter.embedding.android.FlutterView
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.embedding.engine.dart.DartExecutor
+import io.flutter.plugin.common.MethodChannel
 
 object PresentOne {
     const val ROUTE = "PresentOne"
+    const val ENGINE_ID = "present_one"
+    private const val CHANNEL = "com.navigation.flutter/present.one"
 
     @Composable
     fun Show() {
@@ -28,13 +30,13 @@ object PresentOne {
                 NavigationUtils.popBackStack()
             },
         ) {
-            Screen("Present One", onBackPressed = { NavigationUtils.popBackStack() })
+            Screen("Present One")
         }
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun Screen(title: String, onBackPressed: (() -> Unit)? = null) {
+    fun Screen(title: String) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
@@ -43,39 +45,65 @@ object PresentOne {
                 )
             }
         ) { innerPadding ->
-            Row(
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(innerPadding),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                    .padding(innerPadding)
             ) {
-
-                Column(
+                AndroidView(
                     modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
+                    factory = { ctx ->
+                        var flutterEngine =
+                            FlutterEngineCache.getInstance().get(ENGINE_ID)
 
-                    Text(
-                        modifier = Modifier.padding(bottom = 10.dp),
-                        fontSize = 18.sp,
-                        text = "Present One"
-                    )
+                        if (flutterEngine == null) {
+                            flutterEngine = FlutterEngine(ctx).apply {
+                                dartExecutor.executeDartEntrypoint(
+                                    DartExecutor.DartEntrypoint.createDefault()
+                                )
+                            }
+                            FlutterEngineCache.getInstance()
+                                .put(ENGINE_ID, flutterEngine)
+                        }
 
-                    Button(onClick = {
-                      NavigationUtils.navigate(PresentTwo.ROUTE)
-                    }) {
-                        Text("Present", color = Color.White)
+                        flutterEngine.also {
+                            setupFlutterChannel(it) { event ->
+                                when (event) {
+                                    "Present" -> {
+                                        NavigationUtils.navigate(PresentTwo.ROUTE)
+                                    }
+
+                                    "Back" -> {
+                                        NavigationUtils.popBackStack()
+                                    }
+                                }
+                            }
+                        }
+
+                        val flutterSurfaceView = FlutterSurfaceView(ctx)
+                        val flutterView = FlutterView(ctx, flutterSurfaceView)
+                        flutterView.attachToFlutterEngine(flutterEngine)
+                        flutterEngine.lifecycleChannel.appIsResumed()
+
+                        flutterView
                     }
-                    Button(onClick = {
-                        onBackPressed?.invoke()
-                    }) {
-                        Text("Back", color = Color.White)
-                    }
-
-                }
+                )
             }
         }
+    }
+
+    private fun setupFlutterChannel(flutterEngine: FlutterEngine, onEvent: (String) -> Unit) {
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "onFlutterEvent" -> {
+                        val data = call.arguments as? String
+                        onEvent(data ?: "")
+                        result.success(null)
+                    }
+
+                    else -> result.notImplemented()
+                }
+            }
     }
 }

@@ -75,7 +75,7 @@ object HomeScreen {
                     Button(onClick = {
                         context.startActivity(
                             FlutterActivity
-                                .withCachedEngine("my_engine_id")
+                                .withCachedEngine("/")
                                 .build(context)
                         )
                     }) {
