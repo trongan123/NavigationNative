@@ -12,13 +12,16 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
+        maven("https://storage.googleapis.com/download.flutter.io")
     }
 }
 
 rootProject.name = "NavigationNative"
 include(":app")
- 
+
+val flutterProjectRoot = file("flutter_module")
+apply(from = File(flutterProjectRoot, ".android/include_flutter.groovy"))

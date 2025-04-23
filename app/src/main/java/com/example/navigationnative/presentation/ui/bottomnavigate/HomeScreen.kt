@@ -26,6 +26,7 @@ import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.BackExit
 import com.example.navigationnative.presentation.viewmodel.NavigationViewModel
 import com.example.navigationnative.utils.NavigationUtils
+import io.flutter.embedding.android.FlutterActivity
 
 object HomeScreen {
 
@@ -70,6 +71,15 @@ object HomeScreen {
                         NavigationUtils.navigate(PresentOne.ROUTE)
                     }) {
                         Text("Present", color = Color.White)
+                    }
+                    Button(onClick = {
+                        context.startActivity(
+                            FlutterActivity
+                                .withCachedEngine("my_engine_id")
+                                .build(context)
+                        )
+                    }) {
+                        Text("Open Flutter screen", color = Color.White)
                     }
                     Button(onClick = {
                         NavigationUtils.savedStateHandle("number", 0)

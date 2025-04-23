@@ -1,5 +1,6 @@
 package com.example.navigationnative.presentation.ui.navigation
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,12 +14,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavBackStackEntry
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.ToolBarView
 import com.example.navigationnative.utils.NavigationUtils
+import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterView
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.embedding.engine.dart.DartExecutor
 
 object ScreenTwo {
 
@@ -57,40 +65,26 @@ object ScreenTwo {
                 horizontalArrangement = Arrangement.Center
             ) {
 
-                Column(
+                AndroidView(
                     modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    number = number?.plus(1)
-                    Text(
-                        modifier = Modifier.padding(bottom = 10.dp),
-                        fontSize = 18.sp,
-                        text = number.toString()
-                    )
-                    Button(onClick = {
-                        NavigationUtils.navigate(PresentOne.ROUTE)
-                    }) {
-                        Text("Present", color = Color.White)
-                    }
-                    Button(onClick = {
-                        NavigationUtils.savedStateHandle("number", number)
-                        NavigationUtils.navigate(ScreenThree.ROUTE)
-                    }) {
-                        Text("Push", color = Color.White)
-                    }
-                    Button(onClick = {
-                        NavigationUtils.popBackStack()
-                    }) {
-                        Text("Back", color = Color.White)
-                    }
-                    Button(onClick = {
-                        NavigationUtils.navigate(ScreenThree.getRouteWithParam(number), ROUTE, true)
-                    }) {
-                        Text("Push and Clear Stack", color = Color.White)
-                    }
+                    factory = { ctx ->
+                        val flutterEngineId = "my_engine_id"
+                        var flutterEngine = FlutterEngineCache.getInstance().get(flutterEngineId)
 
-                }
+                        if (flutterEngine == null) {
+                            flutterEngine = FlutterEngine(ctx).apply {
+                                dartExecutor.executeDartEntrypoint(
+                                    DartExecutor.DartEntrypoint.createDefault()
+                                )
+                            }
+                            FlutterEngineCache.getInstance().put(flutterEngineId, flutterEngine)
+                        }
+
+                        FlutterView(ctx).apply {
+                            attachToFlutterEngine(flutterEngine)
+                        }
+                    }
+                )
             }
         }
     }

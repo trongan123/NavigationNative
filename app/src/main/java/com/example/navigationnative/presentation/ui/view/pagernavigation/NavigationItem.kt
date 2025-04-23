@@ -1,12 +1,16 @@
 package com.example.navigationnative.presentation.ui.view.pagernavigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.viewinterop.AndroidView
 import com.example.navigationnative.R
 import com.example.navigationnative.presentation.ui.bottomnavigate.CallScreen
-import com.example.navigationnative.presentation.ui.bottomnavigate.FriendScreen
 import com.example.navigationnative.presentation.ui.bottomnavigate.HomeScreen
 import com.example.navigationnative.presentation.ui.bottomnavigate.ProfileScreen
 import com.example.navigationnative.presentation.ui.bottomnavigate.SearchScreen
+import io.flutter.embedding.android.FlutterView
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.embedding.engine.dart.DartExecutor
 
 data class NavigationItem(
     val iconDefault: Int,
@@ -38,7 +42,23 @@ data class NavigationItem(
                     R.drawable.ic_friend,
                     R.drawable.ic_friend_selected
                 ) {
-                    FriendScreen.Screen("Friend Screen")
+                    AndroidView(factory = { context ->
+                        var flutterEngine = FlutterEngineCache.getInstance().get("my_engine_id")
+
+                        if (flutterEngine == null) {
+                            // Khởi tạo lại FlutterEngine nếu không có sẵn trong cache
+                            flutterEngine = FlutterEngine(context).apply {
+                                dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
+                            }
+                            // Cache FlutterEngine cho lần sử dụng sau
+                            FlutterEngineCache.getInstance().put("my_engine_id", flutterEngine)
+                        }
+
+                        FlutterView(context).apply {
+                            this.attachToFlutterEngine(flutterEngine)
+                        }
+
+                    })
                 },
                 NavigationItem(
                     R.drawable.ic_profile,
