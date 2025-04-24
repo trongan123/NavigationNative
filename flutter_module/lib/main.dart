@@ -7,21 +7,26 @@ import 'screen_one.dart';
 import 'screen_search.dart';
 import 'screen_three.dart';
 import 'screen_two.dart';
+import 'screen_profile.dart';
 
 void main() =>
     runApp(
       MaterialApp(
-        initialRoute: '/',
-        routes: {
-          '/': (context) => MyApp(),
-          '/screen_one': (context) => ScreenOnePage(title: 'Screen One'),
-          '/screen_two': (context) => ScreenTwoPage(title: 'Screen Two'),
-          '/screen_three': (context) => ScreenThreePage(title: 'Screen Three'),
-          '/present_one': (context) => PresentOnePage(title: 'Present One'),
-          '/present_two': (context) => PresentTwoPage(title: 'Present Two'),
-          '/screen_search': (context) =>
-              ScreenSearchPage(title: 'Screen Search'),
-        },
+          navigatorKey: navKey,
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+            '/screen_one': (context) => ScreenOnePage(title: 'Screen One'),
+            '/screen_two': (context) => ScreenTwoPage(title: 'Screen Two'),
+            '/screen_three': (context) =>
+                ScreenThreePage(title: 'Screen Three'),
+            '/present_one': (context) => PresentOnePage(title: 'Present One'),
+            '/present_two': (context) => PresentTwoPage(title: 'Present Two'),
+            '/screen_search': (context) =>
+                ScreenSearchPage(title: 'Screen Search'),
+            '/screen_profile': (context) =>
+                ScreenProfilePage(title: 'Screen Profile'),
+          }
       ),
     );
 
@@ -30,11 +35,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return const MyHomePage(title: 'Flutter Demo Home Page');
   }
 }
 
@@ -78,76 +79,74 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navKey,
-      home: Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text('Navigate Native to Flutter:'),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  sendEventToNative("Present");
-                },
-                child: const Text("Present"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  sendEventToNative("Push");
-                },
-                child: const Text("Push"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  sendEventToNative("BottomSheet");
-                },
-                child: const Text("Bottom Sheet"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Xử lý khi nhấn button 3
-                  sendEventToNative("Notification");
-                },
-                child: const Text("Show Notification"),
-              ),
-              const SizedBox(height: 10),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.title)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text('Navigate Native to Flutter:'),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                sendEventToNative("Present");
+              },
+              child: const Text("Present"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                sendEventToNative("Push");
+              },
+              child: const Text("Push"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                sendEventToNative("BottomSheet");
+              },
+              child: const Text("Bottom Sheet"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                sendEventToNative("Notification");
+              },
+              child: const Text("Show Notification"),
+            ),
+            const SizedBox(height: 20),
+            const Text('Navigate Flutter to Flutter:'),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                // Xử lý chổ này
+                Navigator.of(context).pushNamed('/screen_profile');
+              },
+              child: const Text("Flutter to Flutter"),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-
 class _CustomBottomSheetView extends StatelessWidget {
   const _CustomBottomSheetView();
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          Navigator.of(context).pop();
-          return false;
-        },
-        child: SizedBox(
-          height: 200,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('BottomSheet Flutter'),
-                const SizedBox(height: 20),
-                ElevatedButton(onPressed: () {
-                  Navigator.of(context).pop();
-                }, child: const Text("Back")),
-              ],
-            ),
-          ),
-        )
+    return SizedBox(
+      height: 200,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text('BottomSheet Flutter:'),
+            const SizedBox(height: 20),
+            ElevatedButton(onPressed: () {
+              Navigator.of(context).pop();
+            }, child: const Text("Back")),
+          ],
+        ),
+      ),
     );
   }
 }
