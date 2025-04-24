@@ -11,6 +11,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavBackStackEntry
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.ToolBarView
+import com.example.navigationnative.utils.FlutterEngineManager
 import com.example.navigationnative.utils.NavigationUtils
 import io.flutter.embedding.android.FlutterSurfaceView
 import io.flutter.embedding.android.FlutterView
@@ -61,11 +62,13 @@ object ScreenTwo {
                         var flutterEngine = FlutterEngineCache.getInstance().get(ENGINE_ID)
 
                         if (flutterEngine == null) {
-                            flutterEngine = FlutterEngine(ctx).apply {
-                                dartExecutor.executeDartEntrypoint(
-                                    DartExecutor.DartEntrypoint.createDefault()
-                                )
-                            }
+                            // Sử dụng FlutterEngineGroup để tạo engine mới
+                            val engineGroup = FlutterEngineManager.getEngineGroup(ctx)
+                            flutterEngine = engineGroup.createAndRunEngine(
+                                ctx,
+                                DartExecutor.DartEntrypoint.createDefault(),
+                                "/${ENGINE_ID}" // initial route
+                            )
                             FlutterEngineCache.getInstance().put(ENGINE_ID, flutterEngine)
                         }
 

@@ -22,17 +22,14 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.navigationnative.presentation.ui.MainScreen
-import com.example.navigationnative.presentation.ui.bottomnavigate.ProfileScreen
 import com.example.navigationnative.presentation.ui.navigation.ScreenOne
 import com.example.navigationnative.presentation.ui.navigation.ScreenThree
 import com.example.navigationnative.presentation.ui.navigation.ScreenTwo
 import com.example.navigationnative.presentation.ui.present.BottomSheetScreen
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.present.PresentTwo
+import com.example.navigationnative.utils.FlutterEngineManager
 import com.example.navigationnative.utils.NavigationUtils
-import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.embedding.engine.FlutterEngineCache
-import io.flutter.embedding.engine.dart.DartExecutor
 
 
 @Composable
@@ -92,28 +89,7 @@ fun AppNavigation() {
         }
     }
 
-    registerProvideFlutterEngine(context, ScreenOne.ENGINE_ID)
-    registerProvideFlutterEngine(context, ScreenTwo.ENGINE_ID)
-    registerProvideFlutterEngine(context, ScreenThree.ENGINE_ID)
-    registerProvideFlutterEngine(context, PresentOne.ENGINE_ID)
-    registerProvideFlutterEngine(context, PresentTwo.ENGINE_ID)
-    registerProvideFlutterEngine(context, ProfileScreen.ENGINE_ID)
-}
-
-fun registerProvideFlutterEngine(context: Context, engineId: String) {
-    var flutterEngine = FlutterEngine(context).apply {
-        navigationChannel.setInitialRoute("/${engineId}")
-        dartExecutor.executeDartEntrypoint(
-            DartExecutor.DartEntrypoint.createDefault()
-        )
-    }
-
-    flutterEngine.dartExecutor.executeDartEntrypoint(
-        DartExecutor.DartEntrypoint.createDefault()
-    )
-    FlutterEngineCache
-        .getInstance()
-        .put(engineId, flutterEngine)
+    FlutterEngineManager.registerProvideFlutterEngines(context)
 }
 
 @OptIn(ExperimentalAnimationApi::class)

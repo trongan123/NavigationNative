@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.navigationnative.presentation.ui.present.PresentOne
 import com.example.navigationnative.presentation.ui.view.ToolBarView
+import com.example.navigationnative.utils.FlutterEngineManager
 import com.example.navigationnative.utils.NavigationUtils
 import io.flutter.embedding.android.FlutterSurfaceView
 import io.flutter.embedding.android.FlutterView
@@ -46,17 +47,16 @@ object ScreenOne {
                 AndroidView(
                     modifier = Modifier.fillMaxSize(),
                     factory = { ctx ->
-                        var flutterEngine =
-                            FlutterEngineCache.getInstance().get(ENGINE_ID)
+                        var flutterEngine = FlutterEngineCache.getInstance().get(ENGINE_ID)
 
                         if (flutterEngine == null) {
-                            flutterEngine = FlutterEngine(context).apply {
-                                dartExecutor.executeDartEntrypoint(
-                                    DartExecutor.DartEntrypoint.createDefault()
-                                )
-                            }
-                            FlutterEngineCache.getInstance()
-                                .put(ENGINE_ID, flutterEngine)
+                            val engineGroup = FlutterEngineManager.getEngineGroup(ctx)
+                            flutterEngine = engineGroup.createAndRunEngine(
+                                ctx,
+                                DartExecutor.DartEntrypoint.createDefault(),
+                                "/${PresentOne.ENGINE_ID}"
+                            )
+                            FlutterEngineCache.getInstance().put(PresentOne.ENGINE_ID, flutterEngine)
                         }
 
                         flutterEngine.also {

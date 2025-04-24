@@ -1,6 +1,5 @@
 package com.example.navigationnative.utils
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import com.example.navigationnative.presentation.ui.MainScreen
@@ -31,8 +30,6 @@ object NavigationUtils {
     }
 
     fun navigate(route: String, routeRemove: String, inclusive: Boolean) {
-        Log.e("TAG", "navigate: .route" + route)
-        Log.e("TAG", "navigate: routeRemove" + routeRemove)
         navControllerRef?.get()?.navigate(route) {
             popUpTo(routeRemove) {
                 this.inclusive = inclusive

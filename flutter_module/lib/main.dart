@@ -10,7 +10,7 @@ import 'screen_search.dart';
 void main() => runApp(MaterialApp(
   initialRoute: '/',
   routes: {
-    '/': (context) => Container(),
+    '/': (context) => MyApp(),
     '/screen_one': (context) => ScreenOnePage(title: 'Screen One'),
     '/screen_two': (context) => ScreenTwoPage(title: 'Screen Two'),
     '/screen_three': (context) => ScreenThreePage(title: 'Screen Three'),
@@ -44,21 +44,13 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-const platform = MethodChannel('com.navigation.flutter/events');
+const platform = MethodChannel('com.navigation.flutter/main');
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
-  }
 
   void sendEventToNative(String eventName) async {
     try {
-      await platform.invokeMethod('onFlutterEvent', eventName);
+      await platform.invokeMethod('navigation', eventName);
     } on PlatformException catch (e) {
       print("Failed to send event: '${e.message}'.");
     }
@@ -74,36 +66,32 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text('You have pushed the button this many times:'),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
+              const Text('Navigate Native to Flutter:'),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-
+                  sendEventToNative("Present");
                 },
-                child: const Text("Button 1"),
+                child: const Text("Present"),
               ),
               ElevatedButton(
                 onPressed: () {
-
+                  sendEventToNative("Push");
                 },
-                child: const Text("Button 2"),
+                child: const Text("Push"),
               ),
               ElevatedButton(
                 onPressed: () {
-
+                  sendEventToNative("BottomSheet");
                 },
-                child: const Text("Button 3"),
+                child: const Text("Bottom Sheet"),
               ),
               ElevatedButton(
                 onPressed: () {
                   // Xử lý khi nhấn button 3
-                  sendEventToNative("avczxcxzxczxc");
+                  sendEventToNative("Notification");
                 },
-                child: const Text("Back"),
+                child: const Text("Show Notification"),
               ),
               const SizedBox(height: 10),
             ],

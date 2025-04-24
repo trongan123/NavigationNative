@@ -10,6 +10,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.navigationnative.utils.FlutterEngineManager
 import com.example.navigationnative.utils.NavigationUtils
 import io.flutter.embedding.android.FlutterSurfaceView
 import io.flutter.embedding.android.FlutterView
@@ -57,13 +58,13 @@ object PresentTwo {
                             FlutterEngineCache.getInstance().get(ENGINE_ID)
 
                         if (flutterEngine == null) {
-                            flutterEngine = FlutterEngine(ctx).apply {
-                                dartExecutor.executeDartEntrypoint(
-                                    DartExecutor.DartEntrypoint.createDefault()
-                                )
-                            }
-                            FlutterEngineCache.getInstance()
-                                .put(ENGINE_ID, flutterEngine)
+                            val engineGroup = FlutterEngineManager.getEngineGroup(ctx)
+                            flutterEngine = engineGroup.createAndRunEngine(
+                                ctx,
+                                DartExecutor.DartEntrypoint.createDefault(),
+                                "/${PresentOne.ENGINE_ID}"
+                            )
+                            FlutterEngineCache.getInstance().put(PresentOne.ENGINE_ID, flutterEngine)
                         }
 
                         flutterEngine.also {

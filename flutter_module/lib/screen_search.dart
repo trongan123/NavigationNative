@@ -28,10 +28,7 @@ class _ScreenSearchPageState extends State<ScreenSearchPage> {
     platform.setMethodCallHandler((call) async {
       if (call.method == "setData") {
         final Map args = call.arguments;
-
-        setState(() {
-          name = args["title"];
-        });
+        name = args["title"];
       }
     });
 
@@ -39,7 +36,7 @@ class _ScreenSearchPageState extends State<ScreenSearchPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text(name)],
+          children: <Widget>[Text("Screen Flutter")],
         ),
       ),
     );
