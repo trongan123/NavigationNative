@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
 import com.example.navigationnative.presentation.navigation.AppNavigation
 import com.example.navigationnative.presentation.theme.NavigationNativeTheme
+import com.example.navigationnative.utils.FlutterEngineManager
 import com.example.navigationnative.utils.NavigationUtils
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FlutterEngineManager.registerProvideFlutterEngines(this)
         enableEdgeToEdge()
         setContent {
             NavigationNativeTheme {

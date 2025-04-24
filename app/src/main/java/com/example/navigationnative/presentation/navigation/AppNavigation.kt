@@ -89,7 +89,6 @@ fun AppNavigation() {
         }
     }
 
-    FlutterEngineManager.registerProvideFlutterEngines(context)
 }
 
 @OptIn(ExperimentalAnimationApi::class)
